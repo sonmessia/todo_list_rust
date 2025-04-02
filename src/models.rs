@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fmt};
 use std::io::{self, Write};
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TodoItem {
     pub id: usize,
     pub description: String,
@@ -26,7 +26,7 @@ impl fmt::Display for TodoItem {
 }
 
 
-struct TodoList {
+pub struct TodoList {
     tasks: HashMap<usize, TodoItem>,
     next_id: usize,
 }
