@@ -1,12 +1,14 @@
 use structopt::StructOpt;
 use crate::models::TodoItem;
 use crate::storage::Storage;
+use colored::*;
 
 #[derive(StructOpt, Debug)]
 pub enum Command {
     Add {description: String},
     Edit {id: usize, description: String},
     Delete {id: usize},
+    Toggle {id: usize},
     List,
 }
 
@@ -20,22 +22,27 @@ impl Command {
                 let id = storage.get_next_id().map_err(|e| e.to_string())?;
                 todo.id = id;
                 storage.add(todo).map_err(|e| e.to_string())?;
-                println!("Added todo with ID: {}", id);
+                println!("{}", format!("Added todo with ID: {}", id).green());
             },
             Command::Edit { id, description } => {
                 storage.edit(*id, description.clone())
                     .map_err(|e| format!("Failed to edit todo: {}", e))?;
-                println!("Updated todo with ID: {}", id);
+                println!("{}", format!("Updated todo with ID: {}", id).green());
             },
             Command::Delete { id } => {
                 storage.delete(*id)
                     .map_err(|e| format!("Failed to delete todo: {}", e))?;
-                println!("Deleted todo with ID: {}", id);
+                println!("{}", format!("Deleted todo with ID: {}", id).green());
+            },
+            Command::Toggle { id } => {
+                storage.toggle(*id)
+                    .map_err(|e| format!("Failed to toggle todo: {}", e))?;
+                println!("{}", format!("Toggled todo with ID: {}", id).green()); 
             },
             Command::List => {
                 let todos = storage.list().map_err(|e| e.to_string())?;
                 if todos.is_empty() {
-                    println!("No todos found");
+                    println!("{}", format!("No todos found").red());    
                 } else {
                     println!("Todos:");
                     for todo in todos {

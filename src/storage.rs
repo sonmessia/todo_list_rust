@@ -111,4 +111,15 @@ impl Storage {
         serde_json::to_writer_pretty(writer, items)?;
         Ok(())
     }
+
+    pub fn toggle(&self, id: usize) -> io::Result<()> {
+        let mut items = self.load_items()?;
+        
+        if let Some(item) = items.iter_mut().find(|item| item.id == id) {
+            item.completed = !item.completed;
+            self.save_items(&items)
+        } else {
+            Err(io::Error::new(io::ErrorKind::NotFound, format!("Item with ID {} not found", id)))
+        }
+    }
 }
