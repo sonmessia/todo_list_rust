@@ -80,4 +80,26 @@ impl TodoList {
             println!("{}: {} [{}]", item.id, item.description, status);
         }
     }
+
+    pub fn list_items_completed(&self) {
+        let mut list: Vec<&TodoItem> = self.items.values().filter(|item| item.completed).collect();
+        list.sort_by_key(|item| item.id);
+        for item in list {
+            println!("{}: {}", item.id, item.description);
+        }
+    }
+    pub fn list_items_not_completed(&self) {
+        let mut list: Vec<&TodoItem> = self.items.values().filter(|item| !item.completed).collect();
+        list.sort_by_key(|item| item.id);
+        for item in list {
+            println!("{}: {}", item.id, item.description);
+        }
+    }
+    pub fn list_items_by_id(&self, id: usize) {
+        if let Some(item) = self.items.get(&id) {
+            println!("{}: {}", item.id, item.description);
+        } else {
+            println!("Item with ID {} not found", id);
+        }
+    }
 }

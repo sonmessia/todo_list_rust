@@ -23,5 +23,10 @@ pub enum Commands {
         #[arg(short, long)]
         id: usize},
     List,
+    ListCompleted,
+    ListPending,
+    ListById {
+        #[arg(short, long)]
+        id: usize},
 }
 

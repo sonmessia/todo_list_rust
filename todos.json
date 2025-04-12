@@ -1,7 +1,1 @@
-[
-  {
-    "id": 1,
-    "description": "Buy groceries",
-    "completed": false
-  }
-]
+{"2":{"id":2,"description":"Do housework","completed":false}}

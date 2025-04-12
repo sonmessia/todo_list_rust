@@ -29,5 +29,14 @@ fn main() {
             todo_list.delete_item(id).expect("Failed to delete item");
             save_todo_list(&todo_list).expect("Failed to save todo list");
         },
+        Commands::ListCompleted => {
+            todo_list.list_items_completed();
+        },
+        Commands::ListPending => {
+            todo_list.list_items_not_completed();
+        },
+        Commands::ListById { id } => {
+            todo_list.list_items_by_id(id);
+        },
     }
 }
